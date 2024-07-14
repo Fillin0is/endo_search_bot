@@ -4,23 +4,18 @@ from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton, BotComma
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
 import os
+from environs import Env
 
-import dotenv
+env = Env()
+env.read_env()
+
+bot_token = env('bot_token')
 
 from scraping import search_medicines, search_vet_medicines, search_medical_devices, search_field_medicines, search_standard_samples
-
-
-# Данные для токена берутся из области вижимости окружения
-bot_token = '7098586282:AAFmf52ohep5DUcGN-kpfMtvk5BChe2UAsw'
 
 # Создаем объекты бота и диспетчера
 bot = Bot(token=bot_token)
 dp = Dispatcher()
-
-dotenv.load_dotenv()
-
-print(os.getenv('bot_tokenn'))
-print(os.getenv('admin_id'))
 
 # Хранилице данных пользователя, (в теории можно переделать в @dataclass)
 users = {}
