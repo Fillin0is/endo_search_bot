@@ -3,6 +3,10 @@ from aiogram.filters import Command, CommandStart
 from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton, BotCommand, InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
+import os
+
+import dotenv
+
 from scraping import search_medicines, search_vet_medicines, search_medical_devices, search_field_medicines, search_standard_samples
 
 
@@ -12,6 +16,11 @@ bot_token = '7098586282:AAFmf52ohep5DUcGN-kpfMtvk5BChe2UAsw'
 # Создаем объекты бота и диспетчера
 bot = Bot(token=bot_token)
 dp = Dispatcher()
+
+dotenv.load_dotenv()
+
+print(os.getenv('bot_tokenn'))
+print(os.getenv('admin_id'))
 
 # Хранилице данных пользователя, (в теории можно переделать в @dataclass)
 users = {}
