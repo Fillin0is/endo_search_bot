@@ -1,17 +1,17 @@
 from aiogram import Bot, Dispatcher, F
 from aiogram.filters import Command, CommandStart
-from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton, BotCommand, InlineKeyboardButton, InlineKeyboardMarkup
-from aiogram.utils.keyboard import ReplyKeyboardBuilder
+from aiogram.types import Message, BotCommand
 
-import os
 from environs import Env
+
+import asyncio
 
 env = Env()
 env.read_env()
 
 bot_token = env('bot_token')
 
-from scraping import search_medicines, search_vet_medicines, search_medical_devices, search_field_medicines, search_standard_samples
+from scraping.scraping import search_medicines, search_vet_medicines, search_medical_devices, search_field_medicines, search_standard_samples
 
 # Создаем объекты бота и диспетчера
 bot = Bot(token=bot_token)
@@ -19,36 +19,6 @@ dp = Dispatcher()
 
 # Хранилице данных пользователя, (в теории можно переделать в @dataclass)
 users = {}
-
-# ------------- Создаем клавиатуру через ReplyKeyboardBuilder -----------------
-
-# Создаем кнопки для разбития товаров по категориям
-medicines_button = KeyboardButton(text='Лекарственные препараты')
-vet_medicines_button = KeyboardButton(text='Ветеринария')
-medical_devices_button = KeyboardButton(text='Медицинские изделия')
-field_medicine_button = KeyboardButton(text='Тактическая медицина')
-standard_samples_button = KeyboardButton(text='Стандартные образцы')
-
-# Инициализируем билдер под все кнопки
-categories_buttons = ReplyKeyboardBuilder()
-
-# Добавляем кнопки в билдер
-categories_buttons.row(medicines_button, vet_medicines_button, medical_devices_button, field_medicine_button, standard_samples_button, width=2)
-
-# Создаем клавиатуру с кнопками
-categories_btns: ReplyKeyboardMarkup = categories_buttons.as_markup(
-    one_timekeyboard=True,
-    resize_keyboard=True
-)
-
-url_company_button = InlineKeyboardButton(
-    text='Наш сайт',
-    url='https://endopharm.ru/company/'
-)
-
-inline_keyboard = InlineKeyboardMarkup(
-    inline_keyboard=[[url_company_button]]
-)
 
 # ----------------- Обработчики апдейтов -----------------
 

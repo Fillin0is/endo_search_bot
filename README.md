@@ -1,1 +1,1 @@
-Бот для поиска продукции через интерейс телеграмма
+Bot to search for products via telegram interace
