@@ -7,11 +7,11 @@ from lexicon.lexicon_ru import LEXICON_RU
 # ------------- Создаем клавиатуру через ReplyKeyboardBuilder -----------------
 
 # Создаем кнопки для разбития товаров по категориям
-medicines_button = KeyboardButton(text='Лекарственные препараты')
-vet_medicines_button = KeyboardButton(text='Ветеринария')
-medical_devices_button = KeyboardButton(text='Медицинские изделия')
-field_medicine_button = KeyboardButton(text='Тактическая медицина')
-standard_samples_button = KeyboardButton(text='Стандартные образцы')
+medicines_button = KeyboardButton(text=LEXICON_RU['human_medicine'])
+vet_medicines_button = KeyboardButton(text=LEXICON_RU['animals_medicine'])
+medical_devices_button = KeyboardButton(text=LEXICON_RU['medical_devices'])
+field_medicine_button = KeyboardButton(text=LEXICON_RU['field_medicine'])
+standard_samples_button = KeyboardButton(text=LEXICON_RU['standard_samples'])
 
 # Инициализируем билдер под все кнопки
 categories_buttons = ReplyKeyboardBuilder()
@@ -28,7 +28,7 @@ categories_btns: ReplyKeyboardMarkup = categories_buttons.as_markup(
 #-------------------- Inline Клавиатура ----------------------------
 
 url_company_button = InlineKeyboardButton(
-    text='Наш сайт',
+    text=LEXICON_RU['our_site'],
     url='https://endopharm.ru/company/'
 )
 

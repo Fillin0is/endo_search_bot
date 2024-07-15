@@ -2,6 +2,10 @@ from aiogram import Bot, Dispatcher, F
 from aiogram.filters import Command, CommandStart
 from aiogram.types import Message, BotCommand
 
+from keyboards.keyboards import categories_btns, inline_keyboard
+
+from lexicon.lexicon_ru import LEXICON_RU
+
 from environs import Env
 
 import asyncio
@@ -27,7 +31,7 @@ users = {}
 @dp.message(CommandStart())
 async def process_start_command(message: Message):
     await message.answer(
-        text='Добро пожаловать!\n\nЭтот бот предназначен для удобного поиска медицинских товаров, от всеразличных препаратов до медицинский инструментов\n\nДля подробной инструкции о работе бота нажмите на /info\n\nТакже вы можете охнакомиться с нашей компанией более подробно, перейдя на наш сайт',
+        text=LEXICON_RU['/start'],
         reply_markup=categories_btns
     )
     # Если пользователь только запустил бота и его нет в словаре '
@@ -43,7 +47,7 @@ async def process_start_command(message: Message):
 @dp.message(Command(commands='info'))
 async def process_info_command(message: Message):
     await message.answer(
-        text='Для использования бота необходимо знать пару деталей:\n\n1) Поиск бота организован по категориям медицинских продуктов, производимых компанией, для выбора одной из категории необходимо выбрать эту категорию из появившихся кнопок внизу экрана\n\n2) После выбора категории товара, необходимо вписать и отправить запрос боту, который может содеражть как название товара, так и примерное его описание\n\n3) Исходя из ващего запроса будут найдены товары с похожим описанием, в ваш чат будут отправлены ссылки на товары, через которые вы сможете подробнее ознакомиться с продукцией\n\nТакже ниже под этим сообщением расположена кнопка, которая переведет вас на наш сайт, где вы можете узнать о нас чуточку больше!',
+        text=LEXICON_RU['/info'],
         reply_markup=inline_keyboard
     )
 
@@ -62,9 +66,7 @@ async def process_state_medicines(message: Message):
 # Этот хэндлер будет срабатывать на ответ "Лекарственные препараты"
 @dp.message(lambda message: users[message.from_user.id]['category'] == 'Лекарственные препараты')
 async def process_searching_products(message: Message):
-    print(message.text)
     products = await search_medicines(message.text.lower().split())
-    print(products)
     text = 'По вашему запросу найдено:\n'
     i = 0
     for values, keys in products.items():
@@ -81,17 +83,13 @@ async def process_state_vet_medicines(message: Message):
     await message.answer(
         text='Введите свой запрос...'
     )
-
     users[message.from_user.id]['category'] = 'Ветеринария'
-    print(users[message.from_user.id]['category'])
 
 
 # Этот хэндлер будет срабатывать на ответ "Ветеринария"
 @dp.message(lambda message: users[message.from_user.id]['category'] == 'Ветеринария')
 async def process_searching_vet_products(message: Message):
-    print(message.text)
     products = await search_vet_medicines(message.text.lower().split())
-    print(products)
     text = 'По вашему запросу найдено:\n'
     i = 0
     for values, keys in products.items():
@@ -108,17 +106,13 @@ async def process_state_med_devices(message: Message):
     await message.answer(
         text='Введите свой запрос...'
     )
-
     users[message.from_user.id]['category'] = 'Медицинские изделия'
-    print(users[message.from_user.id]['category'])
 
 
 # Этот хэндлер будет срабатывать на ответ "Медицинские изделия"
 @dp.message(lambda message: users[message.from_user.id]['category'] == 'Медицинские изделия')
 async def process_searching_medical_devices(message: Message):
-    print(message.text)
     products = await search_medical_devices(message.text.lower().split())
-    print(products)
     text = 'По вашему запросу найдено:\n'
     i = 0
     for values, keys in products.items():
@@ -135,17 +129,13 @@ async def process_state_med_devices(message: Message):
     await message.answer(
         text='Введите свой запрос...'
     )
-
     users[message.from_user.id]['category'] = 'Тактическая медицина'
-    print(users[message.from_user.id]['category'])
 
 
 # Этот хэндлер будет срабатывать на ответ "Тактическая медицина"
 @dp.message(lambda message: users[message.from_user.id]['category'] == 'Тактическая медицина')
 async def process_searching_field_medicines(message: Message):
-    print(message.text)
     products = await search_field_medicines(message.text.lower().split())
-    print(products)
     text = 'По вашему запросу найдено:\n'
     i = 0
     for values, keys in products.items():
@@ -162,18 +152,13 @@ async def process_state_med_devices(message: Message):
     await message.answer(
         text='Введите свой запрос...'
     )
-
     users[message.from_user.id]['category'] = 'Стандартные образцы'
-    print(users[message.from_user.id]['category'])
 
 
 # Этот хэндлер будет срабатывать на ответ "Стандартные образцы"
 @dp.message(lambda message: users[message.from_user.id]['category'] == 'Стандартные образцы')
 async def process_searching_standard_samples(message: Message):
-    print(message.text)
     products = await search_standard_samples(message.text.lower().split())
-
-    print(type(products))
 
     text = 'По вашему запросу найдено:\n'
     i = 0
