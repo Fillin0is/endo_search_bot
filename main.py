@@ -2,6 +2,7 @@ import asyncio
 import logging
 
 from aiogram import Bot, Dispatcher
+from aiogram.types import BotCommand
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from config.config import Config, load_config
@@ -20,7 +21,7 @@ async def main():
                '[%(asctime)s] - %(name)s - %(message)s')
 
     # Выводим в консоль информацию о начале запуска бота
-    logger.info('Starting bot')
+    logger.debug('Starting bot')
 
     # Загружаем конфиг в переменную config
     config: Config = load_config()
@@ -35,6 +36,20 @@ async def main():
     # Регистриуем роутеры в диспетчере
     dp.include_router(user_handlers.router)
     dp.include_router(other_handlers.router)
+
+    # Меню команд
+    async def set_main_menu(bot: Bot):
+        main_menu_commands = [
+            BotCommand(command='/start', description='Команда запуска бота'),
+            BotCommand(command='/info', description='Инофрмация о работе бота')
+        ]
+
+        await bot.set_my_commands(main_menu_commands)
+
+
+    # Регистрируем асинхронную функцию в диспетчере,
+    # которая будет выполняться на старте бота,
+    dp.startup.register(set_main_menu)
 
     # Пропускаем накопившиеся апдейты и запускаем polling
     await bot.delete_webhook(drop_pending_updates=True)
