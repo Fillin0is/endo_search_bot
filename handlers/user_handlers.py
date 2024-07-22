@@ -42,118 +42,144 @@ async def process_info_command(message: Message):
 
 
 # Этот хэндлер будет срабатывать на ответ "Лекарственные препараты"
-@router.message(F.text == 'Лекарственные препараты')
+@router.message(F.text == LEXICON_RU['human_medicine'])
 async def process_state_medicines(message: Message):
     await message.answer(
-        text='Введите свой запрос...'
+        text = LEXICON_RU['write_request']
     )
-
-    users[message.from_user.id]['category'] = 'Лекарственные препараты'
-    print(users[message.from_user.id]['category'])
+    users[message.from_user.id]['category'] = LEXICON_RU['human_medicine']
 
 
 # Этот хэндлер будет срабатывать на ответ "Лекарственные препараты"
-@router.message(lambda message: users[message.from_user.id]['category'] == 'Лекарственные препараты')
+@router.message(lambda message: users[message.from_user.id]['category'] == LEXICON_RU['human_medicine'])
 async def process_searching_products(message: Message):
-    products = await search_medicines(message.text.lower().split())
-    text = 'По вашему запросу найдено:\n'
+    products_message = await search_medicines(message.text.lower().split())
+    text = LEXICON_RU['find_answer']
     i = 0
-    for values, keys in products.items():
-        i += 1
-        text += f'{i}. {keys}: {values}\n'
-        if i == 15:
-            break
+    if type(products_message) == dict:
+        for values, keys in products_message.items():
+            i += 1
+            text += f'{i}. {keys}: {values}\n'
+            if i == 15:
+                break
+    else:
+        text = products_message
+        
+    users[message.from_user.id]['category'] = ''
     await message.answer(text=text)
 
 
 # Этот хэндлер будет срабатывать на ответ "Ветеринария"
-@router.message(F.text == 'Ветеринария')
+@router.message(F.text == LEXICON_RU['animals_medicine'])
 async def process_state_vet_medicines(message: Message):
     await message.answer(
-        text='Введите свой запрос...'
+        text=LEXICON_RU['write_request']
     )
-    users[message.from_user.id]['category'] = 'Ветеринария'
+    users[message.from_user.id]['category'] = LEXICON_RU['animals_medicine']
 
 
 # Этот хэндлер будет срабатывать на ответ "Ветеринария"
-@router.message(lambda message: users[message.from_user.id]['category'] == 'Ветеринария')
+@router.message(lambda message: users[message.from_user.id]['category'] == LEXICON_RU['animals_medicine'])
 async def process_searching_vet_products(message: Message):
-    products = await search_vet_medicines(message.text.lower().split())
-    text = 'По вашему запросу найдено:\n'
+    products_message = await search_vet_medicines(message.text.lower().split())
+    text = LEXICON_RU['find_answer']
     i = 0
-    for values, keys in products.items():
-        i += 1
-        text += f'{i}. {keys}: {values}\n'
-        if i == 15:
-            break
+    if type(products_message) == dict:
+        for values, keys in products_message.items():
+            i += 1
+            text += f'{i}. {keys}: {values}\n'
+            if i == 15:
+                break
+    else:
+        text = products_message
+        
+    users[message.from_user.id]['category'] = ''
     await message.answer(text=text)
 
 
+
 # Этот хэндлер будет срабатывать на ответ "Медицинские изделия"
-@router.message(F.text == 'Медицинские изделия')
+@router.message(F.text == LEXICON_RU['medical_devices'])
 async def process_state_med_devices(message: Message):
     await message.answer(
-        text='Введите свой запрос...'
+        text=LEXICON_RU['write_request']
     )
-    users[message.from_user.id]['category'] = 'Медицинские изделия'
+    users[message.from_user.id]['category'] = LEXICON_RU['medical_devices']
 
 
 # Этот хэндлер будет срабатывать на ответ "Медицинские изделия"
-@router.message(lambda message: users[message.from_user.id]['category'] == 'Медицинские изделия')
+@router.message(lambda message: users[message.from_user.id]['category'] == LEXICON_RU['medical_devices'])
 async def process_searching_medical_devices(message: Message):
-    products = await search_medical_devices(message.text.lower().split())
-    text = 'По вашему запросу найдено:\n'
+    products_message = await search_medical_devices(message.text.lower().split())
+    text = LEXICON_RU['find_answer']
     i = 0
-    for values, keys in products.items():
-        i += 1
-        text += f'{i}. {keys}: {values}\n'
-        if i == 15:
-            break
+    if type(products_message) == dict:
+        for values, keys in products_message.items():
+            i += 1
+            text += f'{i}. {keys}: {values}\n'
+            if i == 15:
+                break
+    else:
+        text = products_message
+        
+    users[message.from_user.id]['category'] = ''
     await message.answer(text=text)
 
 
+
 # Этот хэндлер будет срабатывать на ответ "Тактическая медицина"
-@router.message(F.text == 'Тактическая медицина')
+@router.message(F.text == LEXICON_RU['field_medicine'])
 async def process_state_med_devices(message: Message):
     await message.answer(
-        text='Введите свой запрос...'
+        text = LEXICON_RU['write_request']
     )
-    users[message.from_user.id]['category'] = 'Тактическая медицина'
+    users[message.from_user.id]['category'] = LEXICON_RU['field_medicine']
 
 
 # Этот хэндлер будет срабатывать на ответ "Тактическая медицина"
-@router.message(lambda message: users[message.from_user.id]['category'] == 'Тактическая медицина')
+@router.message(lambda message: users[message.from_user.id]['category'] == LEXICON_RU['field_medicine'])
 async def process_searching_field_medicines(message: Message):
-    products = await search_field_medicines(message.text.lower().split())
-    text = 'По вашему запросу найдено:\n'
+    products_message = await search_field_medicines(message.text.lower().split())
+    text = LEXICON_RU['find_answer']
     i = 0
-    for values, keys in products.items():
-        i += 1
-        text += f'{i}. {keys}: {values}\n'
-        if i == 15:
-            break
+    if type(products_message) == dict:
+        for values, keys in products_message.items():
+            i += 1
+            text += f'{i}. {keys}: {values}\n'
+            if i == 15:
+                break
+    else:
+        text = products_message
+        
+    users[message.from_user.id]['category'] = ''
     await message.answer(text=text)
 
 
+
 # Этот хэндлер будет срабатывать на ответ "Стандартные образцы"
-@router.message(F.text == 'Стандартные образцы')
+@router.message(F.text == LEXICON_RU['standard_samples'])
 async def process_state_med_devices(message: Message):
     await message.answer(
-        text='Введите свой запрос...'
+        text = LEXICON_RU['write_request']
     )
-    users[message.from_user.id]['category'] = 'Стандартные образцы'
+    users[message.from_user.id]['category'] = LEXICON_RU['standard_samples']
 
 
 # Этот хэндлер будет срабатывать на ответ "Стандартные образцы"
-@router.message(lambda message: users[message.from_user.id]['category'] == 'Стандартные образцы')
+@router.message(lambda message: users[message.from_user.id]['category'] == LEXICON_RU['standard_samples'])
 async def process_searching_standard_samples(message: Message):
-    products = await search_standard_samples(message.text.lower().split())
+    products_message = await search_standard_samples(message.text.lower().split())
 
-    text = 'По вашему запросу найдено:\n'
+    text = LEXICON_RU['find_answer']
     i = 0
-    for values, keys in products.items():
-        i += 1
-        text += f'{i}. {keys}: {values}\n'
-        if i == 15:
-            break
+    if type(products_message) == dict:
+        for values, keys in products_message.items():
+            i += 1
+            text += f'{i}. {keys}: {values}\n'
+            if i == 15:
+                break
+    else:
+        text = products_message
+        
+    users[message.from_user.id]['category'] = ''
     await message.answer(text=text)
