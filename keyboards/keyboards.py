@@ -3,7 +3,6 @@ from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
 from lexicon.lexicon_ru import LEXICON_RU
 
-
 # ------------- Создаем клавиатуру через ReplyKeyboardBuilder -----------------
 
 # Создаем кнопки для разбития товаров по категориям
@@ -32,6 +31,14 @@ url_company_button = InlineKeyboardButton(
     url='https://endopharm.ru/company/'
 )
 
-inline_keyboard = InlineKeyboardMarkup(
+inline_keyboard_url_company = InlineKeyboardMarkup(
     inline_keyboard=[[url_company_button]]
+)
+
+continue_button = InlineKeyboardButton(
+    text=LEXICON_RU['continue_search']
+)
+
+inline_keyboard_continue_search = InlineKeyboardMarkup(
+    inline_keyboard=[[continue_button]]
 )
